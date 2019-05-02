@@ -63,5 +63,5 @@ typings/
 # Custom ignores
 
 build/**
-config.**
+# config.**
 node_modules/**
