@@ -1,6 +1,13 @@
 {
-    "color": {
+    "style": {
+        "fg": "bold",
         "bg": "blue",
-        "fg": "grey"
+        "border": {
+            "fg": "light-grey"
+        },
+        "label": {
+            "fg": "black",
+            "bg": "light-grey"
+        }
     }
 }
