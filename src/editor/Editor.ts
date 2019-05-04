@@ -57,7 +57,7 @@ export default class Editor {
             editingState: {
                 // Some state things will go here eventually
             },
-            cotent: ''
+            content: ''
         };
 
         // Without a file path, no text needs to be loaded
@@ -129,10 +129,14 @@ export default class Editor {
     }
 
     getContent() {
-        return this.state.cotent;
+        return this.state.content;
     }
 
     getRelativePath() {
         return this.state.relativePath
+    }
+
+    getPreferences() {
+
     }
 }
