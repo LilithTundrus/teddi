@@ -8,6 +8,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 // Local dependencies
 import { readFile } from '../readFile';
+import TextArea from './ui-components/TextArea';
+
+// TODO: should I support a private state model?? That seems like the best idea
 
 export default class Editor {
 
@@ -37,6 +40,9 @@ export default class Editor {
     // State object for keeping things somewhat managed
     private state: any;
 
+    // Screen elements
+    textArea: TextArea;
+
     /** Creates an instance of Editor.
      * @param {string} [filePath]
      * @memberof Editor
@@ -49,8 +55,9 @@ export default class Editor {
             relativePath: filePath,
             fileName: '',
             editingState: {
-
-            }
+                // Some state things will go here eventually
+            },
+            cotent: ''
         };
 
         // Without a file path, no text needs to be loaded
@@ -71,18 +78,19 @@ export default class Editor {
         }
     }
 
-    startEditorBlank() {
+    private startEditorBlank() {
 
     }
 
 
-    startEditor() {
+    private startEditor() {
         let contents = readFile(this.state.relativePath);
 
         let parsedContent: string;
         // Try to read the passed content buffer 
         try {
             parsedContent = contents.toString();
+            this.state.content = parsedContent;
         }
         // Else, print an error that the file cannot be opened
         catch (err) {
@@ -92,5 +100,39 @@ export default class Editor {
 
         // Set the title of the terminal window (if any title bar exists)
         this.screen.title = `Teddi - ${this.state.resolvedFilePath}`;
+
+        // Call the initializeScreen function to finish setting up the editor
+        this.initializeScreen();
+    }
+
+    private initializeScreen() {
+        // Initialize all classes needed to construct the base UI
+        this.textArea = new TextArea(this);
+
+        // Append each UI element to the blessed screen
+        this.screen.append(this.textArea.textArea);
+        // this.screen.append(this.statusBar.statusBar);
+
+        // Reset the cursor position before rendering the UI
+        this.screen.program.getCursor((err, data) => {
+            this.screen.program.cursorUp(this.screen.height);
+            this.screen.program.cursorBackward(this.screen.width);
+            // Put the cursor at line 1, column 1 of the editing window, including the UI
+            this.screen.program.cursorForward(1);
+            this.screen.program.cursorDown(2);
+        });
+
+        // Render the screen so all changes are ensured to show up
+        this.screen.render();
+        // Focus the textArea to start out
+        this.textArea.textArea.focus();
+    }
+
+    getContent() {
+        return this.state.cotent;
+    }
+
+    getRelativePath() {
+        return this.state.relativePath
     }
 }
