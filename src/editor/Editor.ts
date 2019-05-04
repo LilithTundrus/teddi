@@ -12,6 +12,16 @@ import TextArea from './ui-components/TextArea';
 
 // TODO: should I support a private state model?? That seems like the best idea
 
+/* 
+Okay, so the ideas I have for this are a bit different from before
+
+I think the textarea needs to be a really large window hidden behind some borders
+This should allow for moving the window left/right/up/down without needing to do
+any weird text stuff
+
+This is a huge thing to try and figure out though
+*/
+
 export default class Editor {
 
     // Create the blessed program object to associate with the blessed screen for the editor class

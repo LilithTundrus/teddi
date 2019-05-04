@@ -128,12 +128,27 @@ export default class TextArea {
         });
 
         this.textArea.key('left', () => {
-
+            // this.textArea.position.left = this.textArea.position.left -1;
+            // this.editorInstance.program.cursorReset();
+            // this.editorInstance.screen.render();
         });
 
         this.textArea.key('right', () => {
-            this.textArea.position.left = this.textArea.position.left -1;
-            this.editorInstance.screen.render();
+
+            if (!this.textArea.position.left) {
+                this.textArea.position.left = -1
+            } else {
+                this.editorInstance.program.cursorReset();
+                this.textArea.position.left = this.textArea.position.left - 1
+                // this.textArea.setContent(`${JSON.stringify(this.textArea.position)}`)
+                this.editorInstance.program.sety(2)
+                this.editorInstance.program.setx(2)
+                this.editorInstance.screen.render();
+            }
+        });
+
+        this.textArea.key('down', () => {
+            this.textArea.scroll(1)
         });
     }
 
