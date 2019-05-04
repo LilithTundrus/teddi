@@ -6,7 +6,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 
-export function readFile(path: string): Buffer | void {
+export function readFile(path: string): Buffer {
 
     // First, make sure the path exists
     if (!fs.existsSync(path)) {
