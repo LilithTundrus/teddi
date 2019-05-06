@@ -20,6 +20,9 @@ This should allow for moving the window left/right/up/down without needing to do
 any weird text stuff
 
 This is a huge thing to try and figure out though
+
+Also, it seems to not want to work. I may just do the vim thing and split the lines 
+at this point
 */
 
 export default class Editor {

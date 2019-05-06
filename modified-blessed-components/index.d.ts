@@ -1220,7 +1220,7 @@ export namespace Widgets {
         /**
          * Width of the screen (same as program.cols).
          */
-        width: Types.TPosition;
+        width: number;
 
         /**
          * Height of the screen (same as program.rows).

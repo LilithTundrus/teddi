@@ -19,6 +19,7 @@ export default class TextArea {
 
     textArea: blessed.Widgets.BoxElement;
 
+    _drag: any;
 
     constructor(editorInstance: Editor) {
         this.editorInstance = editorInstance;
@@ -32,6 +33,9 @@ export default class TextArea {
 
             // The top of this element should be the parent width plus 1
             top: 1,
+            left: 0,
+            right: 0,
+            bottom: 0,
 
 
             // Component size options
@@ -128,23 +132,27 @@ export default class TextArea {
         });
 
         this.textArea.key('left', () => {
-            // this.textArea.position.left = this.textArea.position.left -1;
-            // this.editorInstance.program.cursorReset();
-            // this.editorInstance.screen.render();
+            // if (!this.textArea.position.left) {
+            //     this.textArea.position.left = 1
+            // } else {
+            //     this.editorInstance.program.cursorReset();
+            //     this.textArea.position.left = this.textArea.position.left + 1
+            //     // this.textArea.setContent(`${JSON.stringify(this.textArea.position)}`)
+            //     this.editorInstance.program.sety(2)
+            //     this.editorInstance.program.setx(2)
+            //     this.editorInstance.screen.render();
+            // }
         });
 
         this.textArea.key('right', () => {
-
-            if (!this.textArea.position.left) {
-                this.textArea.position.left = -1
-            } else {
-                this.editorInstance.program.cursorReset();
-                this.textArea.position.left = this.textArea.position.left - 1
-                // this.textArea.setContent(`${JSON.stringify(this.textArea.position)}`)
-                this.editorInstance.program.sety(2)
-                this.editorInstance.program.setx(2)
-                this.editorInstance.screen.render();
-            }
+            // this.textArea.position.right = this.textArea.position.right + 1;
+            // this.textArea.position.left = this.textArea.position.left - 1;
+            this.textArea.width++;
+            this.textArea.rleft = this.textArea.rleft -1;
+            this.textArea.setContent(`${JSON.stringify(this.textArea.position)}`)
+            this.editorInstance.program.sety(2)
+            this.editorInstance.program.setx(2)
+            this.editorInstance.screen.render();
         });
 
         this.textArea.key('down', () => {
