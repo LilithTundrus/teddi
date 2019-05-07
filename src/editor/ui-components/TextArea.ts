@@ -5,9 +5,10 @@
 import * as blessed from 'blessed';
 // Local dependencies
 import Editor from '../Editor';
+import TextEngine from './TextEngine';
 // Used for debugging
 import * as fs from 'fs';
-import { line } from '../../../modified-blessed-components';
+
 
 // This file contains one of the blessed components for constructing the UI in an effort to
 // keep this project modular
@@ -20,8 +21,11 @@ export default class TextArea {
 
     textArea: blessed.Widgets.BoxElement;
 
+    textEngine: TextEngine;
+
     constructor(editorInstance: Editor) {
         this.editorInstance = editorInstance;
+        this.textEngine = new TextEngine(this.textArea);
 
         // Create the textArea blessed box (declared as any due to some typings being incorrect)
         this.textArea = blessed.box(<any>{
@@ -162,11 +166,7 @@ export default class TextArea {
         });
 
         this.textArea.key('down', () => {
-            this.textArea.scroll(1)
+            this.textEngine.scrollDown();
         });
-
-        this.textArea.on('move', () => {
-            this.textArea.content = this.textArea.content
-        })
     }
 }
