@@ -21,6 +21,11 @@ any weird text stuff
 
 This is a huge thing to try and figure out though
 
+Right now the main stopping point is that text is auto-flowing when any part of the window starts
+to go off screen, which in our case we DONT care about that.
+
+It's going to take some time of looking through the blessed code to figure it out
+
 Also, it seems to not want to work. I may just do the vim thing and split the lines 
 at this point
 */

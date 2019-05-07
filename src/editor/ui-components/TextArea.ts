@@ -31,6 +31,13 @@ export default class TextArea {
             right: 0,
             bottom: 0,
 
+            normalShrink: true,
+
+            // padding: {
+            //     left: -5
+            // },
+
+
             scrollable: true,
 
             width: '100%',
@@ -41,7 +48,7 @@ export default class TextArea {
             // Don't shrink the text box if the window resizes
             shrink: false,
             // noOverflow: true,
-            // fixed: true,
+            fixed: true,
             // Dissallow text to wrap down the the next line (not documented but still works)
             wrap: false,
 
@@ -62,31 +69,7 @@ export default class TextArea {
             // label: this.editorInstance.getRelativePath(),
 
             content: this.editorInstance.getContent()
-        });
-        // Quit on Control-W
-        // TODO: This should be aware of whether or not the editor has a file that isn't saved/etc.
-        this.textArea.key(['C-w'], () => {
-            return process.exit(0);
-        });
-
-        this.textArea.key('left', () => {
-            // this.textArea.position.right = this.textArea.position.right + 1;
-            // this.textArea.rright = this.textArea.rright + 1;
-            // this.textArea.width++;
-            this.textArea.rleft = this.textArea.rleft + 1;
-            this.editorInstance.screen.render();
-        });
-
-        this.textArea.key('right', () => {
-            // this.textArea.position.right = this.textArea.position.right + 1;
-            // this.textArea.rright = this.textArea.rright + 1;
-            this.textArea.rleft = this.textArea.rleft - 1;
-            this.textArea.width++;
-            this.editorInstance.screen.render();
-        });
-
-        this.textArea.key('down', () => {
-            this.textArea.scroll(1)
+            // content: '-- Move me --'
         });
 
         //     // Create the textArea blessed box (declared as any due to some typings being incorrect)
@@ -190,40 +173,48 @@ export default class TextArea {
         //         content: this.editorInstance.getContent()
         //     });
 
-        //     // Quit on Control-W
-        //     // TODO: This should be aware of whether or not the editor has a file that isn't saved/etc.
-        //     this.textArea.key(['C-w'], () => {
-        //         return process.exit(0);
-        //     });
+    }
 
-        //     this.textArea.key('left', () => {
-        //         // if (!this.textArea.position.left) {
-        //         //     this.textArea.position.left = 1
-        //         // } else {
-        //         //     this.editorInstance.program.cursorReset();
-        //         //     this.textArea.position.left = this.textArea.position.left + 1
-        //         //     // this.textArea.setContent(`${JSON.stringify(this.textArea.position)}`)
-        //         //     this.editorInstance.program.sety(2)
-        //         //     this.editorInstance.program.setx(2)
-        //         //     this.editorInstance.screen.render();
-        //         // }
-        //     });
+    enableKeyListeners() {
+        // Quit on Control-W
+        // TODO: This should be aware of whether or not the editor has a file that isn't saved/etc.
+        this.textArea.key(['C-w'], () => {
+            return process.exit(0);
+        });
 
-        //     this.textArea.key('right', () => {
-        //         // this.textArea.position.right = this.textArea.position.right + 1;
-        //         this.textArea.position.left = this.textArea.position.left - 1;
-        //         // this.textArea.width++;
-        //         this.textArea.rleft = this.textArea.rleft -1;
-        //         this.textArea.setContent(`${JSON.stringify(this.textArea.position)}`)
-        //         this.editorInstance.program.sety(2)
-        //         this.editorInstance.program.setx(2)
-        //         this.editorInstance.screen.render();
-        //     });
+        this.textArea.key('left', () => {
+            // this.textArea.position.right = this.textArea.position.right + 1;
+            // this.textArea.rright = this.textArea.rright + 1;
+            // this.textArea.width++;
+            this.textArea.rleft = this.textArea.rleft + 1;
+            this.editorInstance.screen.render();
+        });
 
-        //     this.textArea.key('down', () => {
-        //         this.textArea.scroll(1)
-        //     });
-        // }
+        this.textArea.key('right', () => {
 
+            // // This callback returns an err and data object, the data object has the x/y 
+            // // position of the cursor
+            this.editorInstance.program.getCursor((err, cursor) => {
+                // If the cursor is not at the end of the line the cursor is on, move it forward one
+                if (cursor.x < this.editorInstance.screen.width - 1) {
+                    this.editorInstance.program.cursorForward(1);
+                }
+                // Horiztonally scroll the text right by 1 if the current line is greater than the
+                // width of the editing window
+                else {
+                    this.textArea.rleft = this.textArea.rleft - 1;
+                    this.textArea.width++;
+                    this.editorInstance.screen.render();
+                }
+            });
+        });
+
+        this.textArea.key('down', () => {
+            this.textArea.scroll(1)
+        });
+
+        this.textArea.on('move', () => {
+            this.textArea.content = this.textArea.content
+        })
     }
 }
