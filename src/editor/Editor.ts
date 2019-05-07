@@ -10,24 +10,14 @@ import * as path from 'path';
 import { readFile } from '../readFile';
 import TextArea from './ui-components/TextArea';
 
-// TODO: should I support a private state model?? That seems like the best idea
-
 /* 
-Okay, so the ideas I have for this are a bit different from before
+TO START OUT
 
-I think the textarea needs to be a really large window hidden behind some borders
-This should allow for moving the window left/right/up/down without needing to do
-any weird text stuff
+this will act like vim with the lines wrapping onto the next
 
-This is a huge thing to try and figure out though
+This makes the most sense FOR NOW while basic editing gets worked out.
 
-Right now the main stopping point is that text is auto-flowing when any part of the window starts
-to go off screen, which in our case we DONT care about that.
-
-It's going to take some time of looking through the blessed code to figure it out
-
-Also, it seems to not want to work. I may just do the vim thing and split the lines 
-at this point
+After that I can make a batter text engine that supports scrolling left/right
 */
 
 export default class Editor {
