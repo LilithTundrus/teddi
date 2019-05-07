@@ -9,6 +9,7 @@ import * as path from 'path';
 // Local dependencies
 import { readFile } from '../readFile';
 import TextArea from './ui-components/TextArea';
+import StatusBar from './ui-components/StatusBar';
 
 /* 
 TO START OUT
@@ -50,6 +51,8 @@ export default class Editor {
 
     // Screen elements
     textArea: TextArea;
+
+    statusBar: StatusBar;
 
     /** Creates an instance of Editor.
      * @param {string} [filePath]
@@ -116,9 +119,11 @@ export default class Editor {
     private initializeScreen() {
         // Initialize all classes needed to construct the base UI
         this.textArea = new TextArea(this);
+        this.statusBar = new StatusBar(this);
 
         // Append each UI element to the blessed screen
         this.screen.append(this.textArea.textArea);
+        this.screen.append(this.statusBar.statusBar);
         // this.screen.append(this.statusBar.statusBar);
 
         // Reset the cursor position before rendering the UI
