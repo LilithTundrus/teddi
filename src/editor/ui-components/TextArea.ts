@@ -167,6 +167,10 @@ export default class TextArea {
             });
         });
 
+        this.textArea.key('up', () => {
+            this.textEngine.scrollUp();
+        });
+
         this.textArea.key('down', () => {
             this.textEngine.scrollDown();
         });
