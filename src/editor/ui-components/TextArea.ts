@@ -23,7 +23,12 @@ export default class TextArea {
     constructor(editorInstance: Editor) {
         this.editorInstance = editorInstance;
 
+        // Create the textArea blessed box (declared as any due to some typings being incorrect)
         this.textArea = blessed.box(<any>{
+            // Parent option for the component, controls how the element interacts with others
+            parent: this.editorInstance.screen,
+
+            // Component relative position options
 
             // The top of this element should be the parent width plus 1
             top: 1,
@@ -31,26 +36,69 @@ export default class TextArea {
             right: 0,
             bottom: 0,
 
-            normalShrink: true,
 
-            // padding: {
-            //     left: -5
-            // },
+            // Component size options
+
+            // Keep the width of this element to 100% of the screen (+1 for scroll bar)
+            width: '100%+1',
+            // Height should be the entire screen minus 1 because of the statusBar
+            // (not doing this would hide part of the text entry window)
+            height: '100%-1',
 
 
-            scrollable: true,
+            // Key related options
 
-            width: '100%',
-            height: '50%',
+            // Allow input of the element
+            input: true,
+            // Dissallow default key mappings
+            keys: false,
+            // Set the element to support all key inputs
+            keyable: true,
 
-            border: 'line',
 
+            // Content control options
+
+            // Don't capture SGR blessed escape codes, that could cause issues
+            tags: false,
             // Don't shrink the text box if the window resizes
             shrink: false,
-            // noOverflow: true,
-            fixed: true,
             // Dissallow text to wrap down the the next line (not documented but still works)
             wrap: false,
+            visible: true,
+
+
+            // Alignment options
+
+            // Left align the text for this element
+            align: 'left',
+
+
+            // Scrolling options
+
+            // Allow the element to be scrollable
+            scrollable: true,
+            // Always allow the element to be scrollable, even if the content is shorter
+            // than the height of the windows
+            alwaysScroll: true,
+            // Scrollbar styles, using extended characters here to 
+            // represent the scroll location character
+            scrollbar: {
+                ch: '█',
+                track: {
+                    bg: 'black',
+                    ch: '░'
+                },
+            },
+            // Limit the maximum content to 16,000 lines (at least initially)
+            baseLimit: 16000,
+
+
+            // Border options
+
+            border: {
+                type: 'line'
+            },
+
 
             // Styling options
 
@@ -66,113 +114,17 @@ export default class TextArea {
                     bg: 'light-grey'
                 }
             },
-            // label: this.editorInstance.getRelativePath(),
+
+            // Content/label options
+
+            // The label is a string that sits on the top left corner of the element,
+            // this is similar to a title windows
+            label: this.editorInstance.getRelativePath(),
 
             content: this.editorInstance.getContent()
-            // content: '-- Move me --'
         });
 
-        //     // Create the textArea blessed box (declared as any due to some typings being incorrect)
-        //     this.textArea = blessed.box(<any>{
-        //         // Parent option for the component, controls how the element interacts with others
-        //         parent: this.editorInstance.screen,
-
-        //         // Component relative position options
-
-        //         // The top of this element should be the parent width plus 1
-        //         top: 1,
-        //         left: 0,
-        //         right: 0,
-        //         bottom: 0,
-
-
-        //         // Component size options
-
-        //         // Keep the width of this element to 100% of the screen
-        //         width: '100%+1',
-        //         // Height should be the entire screen minus 1 because of the statusBar 
-        //         // (not doing this would hide part of the text entry window)
-        //         height: '100%-1',
-
-
-        //         // Key related options
-
-        //         // Allow input of the element
-        //         input: true,
-        //         // Dissallow default key mappings
-        //         keys: false,
-        //         // Set the element to support all key inputs
-        //         keyable: true,
-
-
-        //         // Content control options
-
-        //         // Don't capture SGR blessed escape codes, that could cause issues
-        //         tags: false,
-        //         // Don't shrink the text box if the window resizes
-        //         shrink: false,
-        //         // Dissallow text to wrap down the the next line (not documented but still works)
-        //         wrap: false,
-        //         visible: true,
-
-
-        //         // Alignment options
-
-        //         // Left align the text for this element
-        //         align: 'left',
-
-
-        //         // Scrolling options
-
-        //         // Allow the element to be scrollable
-        //         scrollable: true,
-        //         // Always allow the element to be scrollable, even if the content is shorter
-        //         // than the height of the windows
-        //         alwaysScroll: true,
-        //         // Scrollbar styles, using extended characters here to 
-        //         // represent the scroll location character
-        //         scrollbar: {
-        //             ch: '█',
-        //             track: {
-        //                 bg: 'black',
-        //                 ch: '░'
-        //             },
-        //         },
-        //         // Limit the maximum content to 16,000 lines (at least initially)
-        //         baseLimit: 16000,
-
-
-        //         // Border options
-
-        //         border: {
-        //             type: 'line'
-        //         },
-
-
-        //         // Styling options
-
-        //         // This style matches the DOS edit theme
-        //         style: {
-        //             fg: 'bold',
-        //             bg: 'blue',
-        //             border: {
-        //                 fg: 'light-grey',
-        //             },
-        //             label: {
-        //                 fg: 'black',
-        //                 bg: 'light-grey'
-        //             }
-        //         },
-
-        //         // Content/label options
-
-        //         // The label is a string that sits on the top left corner of the element,
-        //         // this is similar to a title windows
-        //         label: this.editorInstance.getRelativePath(),
-
-        //         content: this.editorInstance.getContent()
-        //     });
-
+        this.enableKeyListeners();
     }
 
     enableKeyListeners() {
