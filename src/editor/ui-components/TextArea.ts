@@ -20,12 +20,15 @@ export default class TextArea {
     private editorInstance: Editor;
 
     textArea: blessed.Widgets.BoxElement;
-
+    // Text Engine class to help with managing the text being displayed
     textEngine: TextEngine;
+
+    // Used to store the vertical offset from the first line
+    verticalScrollOffset: number = 0;
 
     constructor(editorInstance: Editor) {
         this.editorInstance = editorInstance;
-        this.textEngine = new TextEngine(this.textArea);
+        this.textEngine = new TextEngine(this.editorInstance);
 
         // Create the textArea blessed box (declared as any due to some typings being incorrect)
         this.textArea = blessed.box(<any>{
@@ -66,8 +69,7 @@ export default class TextArea {
             tags: false,
             // Don't shrink the text box if the window resizes
             shrink: false,
-            // Dissallow text to wrap down the the next line (not documented but still works)
-            wrap: false,
+            wrap: true,
             visible: true,
 
 
@@ -168,5 +170,10 @@ export default class TextArea {
         this.textArea.key('down', () => {
             this.textEngine.scrollDown();
         });
+    }
+
+    // Basic function to get the scrolling cursor offset (used frequently for each key)
+    calculateScrollingOffset() {
+        return this.verticalScrollOffset;
     }
 }
