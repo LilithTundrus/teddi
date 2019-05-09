@@ -55,6 +55,7 @@ export default class TextEngine {
                     this.editorInstance.textArea.verticalScrollOffset++;
                 }
                 this.editorInstance.screen.render();
+                // TODO: something isn't right here! the offset is getting messed up somehow ( I think it's ahead by one)
             } else if (cursor.y == this.editorInstance.screen.height - 1) {
                 let currentLineOffset = this.editorInstance.textArea.calculateScrollingOffset();
                 let nextLineText = this.editorInstance.textArea.textArea.getLine(currentLineOffset + 1);
@@ -106,28 +107,28 @@ export default class TextEngine {
                     this.editorInstance.textArea.verticalScrollOffset--;
                 }
                 this.editorInstance.screen.render();
+
+                fs.writeFileSync('test.txt', previousLineText)
             } else if (cursor.y == 3 && this.editorInstance.textArea.textArea.getScrollPerc() > 0) {
-                // let currentLineOffset = this.editorInstance.textArea.calculateScrollingOffset();
-                // let nextLineText = this.editorInstance.textArea.textArea.getLine(currentLineOffset + 1);
+                let currentLineOffset = this.editorInstance.textArea.calculateScrollingOffset();
+                let previousLineText = this.editorInstance.textArea.textArea.getLine(currentLineOffset - 1);
+                let previousLineLength = previousLineText.length;
 
-                // let nextLineLength = nextLineText.length;
+                // Check if the text is larger than the screen (and therefore wrapped to the nedt line)
+                if (previousLineLength > this.editorInstance.textArea.textArea.width) {
+                    // Get the number to scroll the cursor down by with Math.ceil rounding up to the next integer
+                    let scrollAmount = Math.ceil(previousLineLength / this.editorInstance.textArea.textArea.width);
+                    this.editorInstance.textArea.textArea.scroll(-scrollAmount);
+                    this.editorInstance.textArea.verticalScrollOffset--;
+                } else {
+                    // Else, just scroll the cursor down by the default 1
+                    this.editorInstance.textArea.textArea.scroll(-1);
+                    this.editorInstance.textArea.verticalScrollOffset--;
+                }
 
-                // // Check if the text is larger than the screen (and therefore wrapped to the nedt line)
-                // if (nextLineLength > this.editorInstance.textArea.textArea.width) {
-                //     // Get the number to scroll the cursor down by with Math.ceil rounding up to the next integer
-                //     let scrollAmount = Math.ceil(nextLineLength / this.editorInstance.textArea.textArea.width);
-                //     this.editorInstance.textArea.textArea.scroll(scrollAmount);
-                //     this.editorInstance.textArea.verticalScrollOffset++;
-                // } else {
-                //     // Else, just scroll the cursor down by the default 1
-                //     this.editorInstance.textArea.textArea.scroll(1);
-                //     this.editorInstance.textArea.verticalScrollOffset++;
-                // }
-
-                // let relativeBottomHeight = this.editorInstance.screen.height - 2;
-                // this.editorInstance.program.cursorPos(relativeBottomHeight, cursor.x - 1);
-                // // Render the cursor change
-                // this.editorInstance.screen.render();
+                this.editorInstance.program.cursorPos(2, cursor.x - 1);
+                // Render the cursor change
+                this.editorInstance.screen.render();
             }
         });
     }
