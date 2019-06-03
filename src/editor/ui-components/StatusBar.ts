@@ -74,6 +74,15 @@ export default class StatusBar {
 
             content: '',
         });
+    }
 
+    update(text: string) {
+        // Update the status bar with some text
+
+        // This function will take each section of the statusbar and reconstruct it
+        this.editorInstance.program.saveCursor('statusBar');
+        this.statusBar.setContent(text);
+        this.editorInstance.screen.render();
+        this.editorInstance.program.restoreCursor('statusBar');
     }
 }
