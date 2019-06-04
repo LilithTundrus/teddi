@@ -61,7 +61,7 @@ export default class TextEngine {
                 fs.writeFileSync('test.txt', this.editorInstance.textArea.textArea.getLine(9))
 
                 // TODO: something isn't right here! the offset is getting messed up somehow ( I think it's ahead by one)
-            } else if (cursor.y == this.editorInstance.screen.height - 1) {
+            } else if (cursor.y == this.editorInstance.screen.height - 1 && this.editorInstance.textArea.textArea.getScrollPerc() !== 100) {
                 let currentLineOffset = this.editorInstance.textArea.calculateScrollingOffset();
                 //    TODO: change var name to CURRENT line text
                 let nextLineText = this.editorInstance.textArea.textArea.getLine(currentLineOffset);
@@ -86,7 +86,7 @@ export default class TextEngine {
                 // Render the cursor change
                 this.editorInstance.screen.render();
 
-                fs.writeFileSync('test.txt', nextLineText)
+                // fs.writeFileSync('test.txt', nextLineText)
             }
             this.editorInstance.statusBar.update(`${this.editorInstance.textArea.verticalScrollOffset}`);
         });
