@@ -31,8 +31,6 @@ export default class TextEngine {
     }
 
     scrollDown() {
-        // TODO: if at the end of the file, stop increasing the offset
-
         // Get the cursor's current position on the screen
         this.editorInstance.program.getCursor((err, cursor) => {
             // If the cursor is within the screen bounds (minus the textarea borders)
@@ -80,19 +78,15 @@ export default class TextEngine {
                     this.editorInstance.textArea.textArea.scroll(1);
                     this.editorInstance.textArea.verticalScrollOffset++;
                 }
-
                 let relativeBottomHeight = this.editorInstance.screen.height - 2;
                 this.editorInstance.program.cursorPos(relativeBottomHeight, cursor.x - 1);
                 // Render the cursor change
                 this.editorInstance.screen.render();
-
-                // fs.writeFileSync('test.txt', nextLineText)
             }
             this.editorInstance.statusBar.update(`${this.editorInstance.textArea.verticalScrollOffset + 1}`);
         });
     }
 
-    // TODO: this doesn't seem to work, the vertical scrolloffset seems to get out of line
     scrollUp() {
         // Get the cursor's current position on the screen
         this.editorInstance.program.getCursor((err, cursor) => {
@@ -137,29 +131,16 @@ export default class TextEngine {
             }
         });
         this.editorInstance.statusBar.update(`${this.editorInstance.textArea.verticalScrollOffset + 1}`);
-
     }
 
 
     // *** These would be if left/right scrolling was a thing (for now it isn't) ***
-
-    // scrollTextDown(amount: number) {
-
-    // }
-
-    // scrollTextUp(amount: number) {
-
-    // }
 
     // scrollTextLeft(amount: number) {
 
     // }
 
     // scrollTextRight(amount: number) {
-
-    // }
-
-    // resetTextScrollHorizontal() {
 
     // }
 }
