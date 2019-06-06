@@ -88,7 +88,7 @@ export default class TextEngine {
 
                 // fs.writeFileSync('test.txt', nextLineText)
             }
-            this.editorInstance.statusBar.update(`${this.editorInstance.textArea.verticalScrollOffset}`);
+            this.editorInstance.statusBar.update(`${this.editorInstance.textArea.verticalScrollOffset + 1}`);
         });
     }
 
@@ -136,6 +136,8 @@ export default class TextEngine {
                 // this.editorInstance.screen.render();
             }
         });
+        this.editorInstance.statusBar.update(`${this.editorInstance.textArea.verticalScrollOffset + 1}`);
+
     }
 
 
