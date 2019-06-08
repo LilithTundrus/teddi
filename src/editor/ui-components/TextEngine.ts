@@ -30,6 +30,9 @@ export default class TextEngine {
 
     }
 
+    // TODO: The offset seems to be getting off by one???
+    // TODO: fix this before moving on!
+
     scrollDown() {
         // Get the cursor's current position on the screen
         this.editorInstance.program.getCursor((err, cursor) => {
@@ -55,10 +58,6 @@ export default class TextEngine {
                     this.editorInstance.textArea.verticalScrollOffset++;
                 }
                 this.editorInstance.screen.render();
-
-                fs.writeFileSync('test.txt', this.editorInstance.textArea.textArea.getLine(9))
-
-                // TODO: something isn't right here! the offset is getting messed up somehow ( I think it's ahead by one)
             } else if (cursor.y == this.editorInstance.screen.height - 1 && this.editorInstance.textArea.textArea.getScrollPerc() !== 100) {
                 let currentLineOffset = this.editorInstance.textArea.calculateScrollingOffset();
                 //    TODO: change var name to CURRENT line text
@@ -83,7 +82,7 @@ export default class TextEngine {
                 // Render the cursor change
                 this.editorInstance.screen.render();
             }
-            this.editorInstance.statusBar.update(`${this.editorInstance.textArea.verticalScrollOffset + 1}`);
+            this.editorInstance.statusBar.update(`${this.editorInstance.textArea.verticalScrollOffset}`);
         });
     }
 
@@ -114,23 +113,10 @@ export default class TextEngine {
                 this.editorInstance.screen.render();
 
             } else if (cursor.y == 3 && this.editorInstance.textArea.textArea.getScrollPerc() > 0) {
-                // let currentLineOffset = this.editorInstance.textArea.calculateScrollingOffset();
-                // let previousLineText = this.editorInstance.textArea.textArea.getLine(currentLineOffset - 1);
-                // let previousLineLength = previousLineText.length;
 
-                // // Check if the text is larger than the screen (and therefore wrapped to the nedt line)
-                // if (previousLineLength > this.editorInstance.textArea.textArea.width) {
-
-                // } else {
-
-                // }
-
-                // this.editorInstance.program.cursorPos(2, cursor.x - 1);
-                // // Render the cursor change
-                // this.editorInstance.screen.render();
             }
         });
-        this.editorInstance.statusBar.update(`${this.editorInstance.textArea.verticalScrollOffset + 1}`);
+        this.editorInstance.statusBar.update(`${this.editorInstance.textArea.verticalScrollOffset}`);
     }
 
 
