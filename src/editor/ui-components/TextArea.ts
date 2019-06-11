@@ -141,30 +141,11 @@ export default class TextArea {
         });
 
         this.textArea.key('left', () => {
-            // this.textArea.position.right = this.textArea.position.right + 1;
-            // this.textArea.rright = this.textArea.rright + 1;
-            // this.textArea.width++;
-            this.textArea.rleft = this.textArea.rleft + 1;
-            this.editorInstance.screen.render();
+
         });
 
         this.textArea.key('right', () => {
-
-            // // This callback returns an err and data object, the data object has the x/y 
-            // // position of the cursor
-            this.editorInstance.program.getCursor((err, cursor) => {
-                // If the cursor is not at the end of the line the cursor is on, move it forward one
-                if (cursor.x < this.editorInstance.screen.width - 1) {
-                    this.editorInstance.program.cursorForward(1);
-                }
-                // Horiztonally scroll the text right by 1 if the current line is greater than the
-                // width of the editing window
-                else {
-                    this.textArea.rleft = this.textArea.rleft - 1;
-                    this.textArea.width++;
-                    this.editorInstance.screen.render();
-                }
-            });
+            this.textEngine.scrollRight();
         });
 
         this.textArea.key('up', () => {
