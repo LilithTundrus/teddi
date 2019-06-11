@@ -32,6 +32,8 @@ export default class TextEngine {
 
     // TODO: The offset seems to be getting off by one???
     // TODO: fix this before moving on!
+    // It seems to only be when scrolling all the way back up, and for now the actual offset seems
+    // fine
 
     scrollDown() {
         // Get the cursor's current position on the screen
@@ -60,15 +62,14 @@ export default class TextEngine {
                 this.editorInstance.screen.render();
             } else if (cursor.y == this.editorInstance.screen.height - 1 && this.editorInstance.textArea.textArea.getScrollPerc() !== 100) {
                 let currentLineOffset = this.editorInstance.textArea.calculateScrollingOffset();
-                //    TODO: change var name to CURRENT line text
-                let nextLineText = this.editorInstance.textArea.textArea.getLine(currentLineOffset);
+                let currentLineText = this.editorInstance.textArea.textArea.getLine(currentLineOffset);
 
-                let nextLineLength = nextLineText.length;
+                let currentLineLength = currentLineText.length;
 
                 // Check if the text is larger than the screen (and therefore wrapped to the nedt line)
-                if (nextLineLength > this.editorInstance.textArea.textArea.width) {
+                if (currentLineLength > this.editorInstance.textArea.textArea.width) {
                     // Get the number to scroll the cursor down by with Math.ceil rounding up to the next integer
-                    let scrollAmount = Math.ceil(nextLineLength / this.editorInstance.textArea.textArea.width);
+                    let scrollAmount = Math.ceil(currentLineLength / this.editorInstance.textArea.textArea.width);
                     this.editorInstance.textArea.textArea.scroll(scrollAmount);
                     this.editorInstance.textArea.verticalScrollOffset++;
                     this.editorInstance.screen.render();
@@ -113,7 +114,7 @@ export default class TextEngine {
                 this.editorInstance.screen.render();
 
             } else if (cursor.y == 3 && this.editorInstance.textArea.textArea.getScrollPerc() > 0) {
-
+                
             }
         });
         this.editorInstance.statusBar.update(`${this.editorInstance.textArea.verticalScrollOffset}`);
