@@ -31,7 +31,6 @@ export default class TextEngine {
     }
 
     // TODO: The offset seems to be getting off by one???
-    // TODO: fix this before moving on!
     // It seems to only be when scrolling all the way back up, and for now the actual offset seems
     // fine
 
@@ -137,5 +136,23 @@ export default class TextEngine {
             }
         });
         this.editorInstance.statusBar.update(`${this.editorInstance.textArea.verticalScrollOffset}`);
+    }
+
+    scrollLeft() {
+
+    }
+
+    scrollRight() {
+        this.editorInstance.program.getCursor((err, cursor) => {
+            // If the cursor is at the start of the line
+            if (cursor.x - 1 < this.editorInstance.textArea.textArea.width) {
+                this.editorInstance.program.cursorForward(1);
+            }
+
+            // If the cursor is in the middle of the line
+
+            // If the cursor is at the end of a line (screen width, not actual line width)
+        });
+
     }
 }
