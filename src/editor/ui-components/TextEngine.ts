@@ -48,7 +48,7 @@ export default class TextEngine {
                 let currentLineText = this.editorInstance.textArea.textArea.getLine(currentLineOffset);
                 let currentLineLength = currentLineText.length;
 
-                // Check if the text is larger than the screen (and therefore wrapped to the nedt line)
+                // Check if the text is larger than the screen (and therefore wrapped to the next line)
                 if (currentLineLength > this.editorInstance.textArea.textArea.width) {
                     // Get the number to scroll the cursor down by with Math.ceil rounding up to the next integer
                     let scrollAmount = Math.ceil(currentLineLength / this.editorInstance.textArea.textArea.width);
@@ -66,7 +66,7 @@ export default class TextEngine {
 
                 let currentLineLength = currentLineText.length;
 
-                // Check if the text is larger than the screen (and therefore wrapped to the nedt line)
+                // Check if the text is larger than the screen (and therefore wrapped to the next line)
                 if (currentLineLength > this.editorInstance.textArea.textArea.width) {
                     // Get the number to scroll the cursor down by with Math.ceil rounding up to the next integer
                     let scrollAmount = Math.ceil(currentLineLength / this.editorInstance.textArea.textArea.width);
@@ -100,7 +100,7 @@ export default class TextEngine {
                 let previousLineText = this.editorInstance.textArea.textArea.getLine(currentLineOffset - 1);
                 let previousLineLength = previousLineText.length;
 
-                // Check if the text is larger than the screen (and therefore wrapped to the nedt line)
+                // Check if the text is larger than the screen (and therefore wrapped to the next line)
                 if (previousLineLength > this.editorInstance.textArea.textArea.width) {
                     // Get the number to scroll the cursor down by with Math.ceil rounding up to the next integer
                     let scrollAmount = Math.ceil(previousLineLength / this.editorInstance.textArea.textArea.width);
@@ -114,20 +114,28 @@ export default class TextEngine {
                 this.editorInstance.screen.render();
 
             } else if (cursor.y == 3 && this.editorInstance.textArea.textArea.getScrollPerc() > 0) {
-                
+                let currentLineOffset = this.editorInstance.textArea.calculateScrollingOffset();
+                let currentLineText = this.editorInstance.textArea.textArea.getLine(currentLineOffset - 1);
+
+                let currentLineLength = currentLineText.length;
+
+                // Check if the text is larger than the screen (and therefore wrapped to the next line)
+                if (currentLineLength > this.editorInstance.textArea.textArea.width) {
+                    // Get the number to scroll the cursor down by with Math.ceil rounding up to the next integer
+                    let scrollAmount = Math.ceil(currentLineLength / this.editorInstance.textArea.textArea.width);
+                    this.editorInstance.textArea.textArea.scroll(-scrollAmount);
+                    this.editorInstance.textArea.verticalScrollOffset--;
+                    this.editorInstance.screen.render();
+                } else {
+                    // Else, just scroll the cursor down by the default 1
+                    this.editorInstance.textArea.textArea.scroll(-1);
+                    this.editorInstance.textArea.verticalScrollOffset--;
+                }
+                this.editorInstance.program.cursorPos(2, cursor.x - 1);
+                // Render the cursor change
+                this.editorInstance.screen.render();
             }
         });
         this.editorInstance.statusBar.update(`${this.editorInstance.textArea.verticalScrollOffset}`);
     }
-
-
-    // *** These would be if left/right scrolling was a thing (for now it isn't) ***
-
-    // scrollTextLeft(amount: number) {
-
-    // }
-
-    // scrollTextRight(amount: number) {
-
-    // }
 }
