@@ -144,15 +144,18 @@ export default class TextEngine {
 
     scrollRight() {
         this.editorInstance.program.getCursor((err, cursor) => {
-            // If the cursor is at the start of the line
-            if (cursor.x - 1 < this.editorInstance.textArea.textArea.width) {
+            // If the cursor is at the start of the line or middle
+            if (cursor.x - 1 < this.editorInstance.textArea.textArea.width - 3) {
                 this.editorInstance.program.cursorForward(1);
+            } else if (cursor.x - 1 == this.editorInstance.textArea.textArea.width - 3 && cursor.y == this.editorInstance.screen.height - 1) {
+                // Scroll the entire screen down by the remaining length of the current line
+            } else {
+                // If the cursor is at the end of a line (screen width, not actual line width)
+                // Check line length
+
+                // If line > 1 screen line width, put the cursor one line below at the first character
+
             }
-
-            // If the cursor is in the middle of the line
-
-            // If the cursor is at the end of a line (screen width, not actual line width)
         });
-
     }
 }
