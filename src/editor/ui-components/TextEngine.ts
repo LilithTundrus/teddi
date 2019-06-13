@@ -144,18 +144,27 @@ export default class TextEngine {
 
     scrollRight() {
         this.editorInstance.program.getCursor((err, cursor) => {
-            // If the cursor is at the start of the line or middle
-            if (cursor.x - 1 < this.editorInstance.textArea.textArea.width - 3) {
-                this.editorInstance.program.cursorForward(1);
-            } else if (cursor.x - 1 == this.editorInstance.textArea.textArea.width - 3 && cursor.y == this.editorInstance.screen.height - 1) {
-                // Scroll the entire screen down by the remaining length of the current line
-            } else {
-                // If the cursor is at the end of a line (screen width, not actual line width)
-                // Check line length
+            let currentLineOffset = this.editorInstance.textArea.calculateScrollingOffset();
 
-                // If line > 1 screen line width, put the cursor one line below at the first character
+            let currentLineText = this.editorInstance.textArea.textArea.getLine(currentLineOffset);
 
+            // Possible conditions:
+            // Cursor is at the start of the line
+            // Cursor is in the middle of the line
+            // Cursor is at the end of the line
+            // Cursor is at the end of the screen width but NOT the current line
+
+            if (cursor.x < this.editorInstance.textArea.textArea.width && currentLineText.length < this.editorInstance.textArea.textArea.width) {
+                // Check if the cursor is at the end of the line
+
+                if (cursor.x - 1 <= currentLineText.length) {
+                    this.editorInstance.program.cursorForward();
+                } else {
+                    // Adjust the vertical offset and put the cursor down by one
+                }
             }
+            // Render the cursor change
+            this.editorInstance.screen.render();
         });
     }
 }
