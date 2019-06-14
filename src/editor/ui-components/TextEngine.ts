@@ -156,12 +156,17 @@ export default class TextEngine {
 
             if (cursor.x < this.editorInstance.textArea.textArea.width && currentLineText.length < this.editorInstance.textArea.textArea.width) {
                 // Check if the cursor is at the end of the line
-
                 if (cursor.x - 1 <= currentLineText.length) {
                     this.editorInstance.program.cursorForward();
                 } else {
+                    // This needs to check if the cursor is at the last line of the editor and if so, scroll down by one
+
                     // Adjust the vertical offset and put the cursor down by one
+                    this.editorInstance.program.cursorPos(cursor.y, 1);
+                    this.editorInstance.textArea.verticalScrollOffset++;
                 }
+            } else {
+
             }
             // Render the cursor change
             this.editorInstance.screen.render();
