@@ -10,6 +10,7 @@ import * as path from 'path';
 import { readFile } from '../readFile';
 import TextArea from './ui-components/TextArea';
 import StatusBar from './ui-components/StatusBar';
+import MenuBar from './ui-components/Menubar';
 
 /* 
 TO START OUT
@@ -53,6 +54,8 @@ export default class Editor {
     textArea: TextArea;
 
     statusBar: StatusBar;
+
+    menuBar: MenuBar;
 
     /** Creates an instance of Editor.
      * @param {string} [filePath]
@@ -120,11 +123,12 @@ export default class Editor {
         // Initialize all classes needed to construct the base UI
         this.textArea = new TextArea(this);
         this.statusBar = new StatusBar(this);
+        this.menuBar = new MenuBar(this);
 
         // Append each UI element to the blessed screen
         this.screen.append(this.textArea.textArea);
         this.screen.append(this.statusBar.statusBar);
-        // this.screen.append(this.statusBar.statusBar);
+        this.screen.append(this.menuBar.menuBar);
 
         // Reset the cursor position before rendering the UI
         this.screen.program.getCursor((err, data) => {
@@ -146,7 +150,7 @@ export default class Editor {
     }
 
     getRelativePath() {
-        return this.state.relativePath
+        return this.state.relativePath;
     }
 
     getPreferences() {
