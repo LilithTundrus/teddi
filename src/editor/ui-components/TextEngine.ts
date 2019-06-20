@@ -5,8 +5,6 @@
 import * as blessed from 'blessed';
 // Local dependencies
 import Editor from '../Editor';
-// Used for debugging
-import * as fs from 'fs';
 
 // This file will hold methods for handling text operations within the 
 // TextArea class
@@ -21,18 +19,13 @@ export default class TextEngine {
 
     // Internal Methods
 
-    // Get the current text that's viewable one the screen
-    private getScreenText
+    // private methods/etc.
 
     // External Methods
 
     addCharacterToLine(lineNumber, insertPosition) {
 
     }
-
-    // TODO: The offset seems to be getting off by one???
-    // It seems to only be when scrolling all the way back up, and for now the actual offset seems
-    // fine
 
     scrollDown() {
         // Get the cursor's current position on the screen
@@ -170,6 +163,8 @@ export default class TextEngine {
             }
             // Render the cursor change
             this.editorInstance.screen.render();
+
+            this.editorInstance.statusBar.update(`${this.editorInstance.textArea.verticalScrollOffset}`);
         });
     }
 }
