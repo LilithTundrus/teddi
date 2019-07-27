@@ -9,12 +9,7 @@ import Editor from './editor/Editor';
 
 
 // Main entry point for the editor, check for an argument, 
-// if not then launch a blank editor
-
-/* TODO: Just MOVE the window to scroll things, not the text!!! 
-
-I could just, scoot the window by one, not the text
-*/
+// if no arg then launch a blank editor
 
 if (process.argv[2]) {
     // Perform the operations to attempt to read/open a file
