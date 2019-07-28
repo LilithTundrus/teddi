@@ -11,6 +11,7 @@ import { readFile } from '../readFile';
 import TextArea from './ui-components/TextArea';
 import StatusBar from './ui-components/StatusBar';
 import MenuBar from './ui-components/Menubar';
+import FileMenu from './ui-components/FileMenu';
 
 /* 
 TO START OUT
@@ -52,10 +53,9 @@ export default class Editor {
 
     // Screen elements
     textArea: TextArea;
-
     statusBar: StatusBar;
-
     menuBar: MenuBar;
+    fileMenu: FileMenu;
 
     /** Creates an instance of Editor.
      * @param {string} [filePath]
@@ -124,11 +124,17 @@ export default class Editor {
         this.textArea = new TextArea(this);
         this.statusBar = new StatusBar(this);
         this.menuBar = new MenuBar(this);
+        this.fileMenu = new FileMenu(this);
 
         // Append each UI element to the blessed screen
         this.screen.append(this.textArea.textArea);
         this.screen.append(this.statusBar.statusBar);
         this.screen.append(this.menuBar.menuBar);
+        this.screen.append(this.fileMenu.fileMenu);
+
+        // Hide elements not immediately needed
+        this.fileMenu.fileMenu.hide();
+
 
         // Reset the cursor position before rendering the UI
         this.screen.program.getCursor((err, data) => {

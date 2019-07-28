@@ -16,7 +16,9 @@ export default class FileMenu {
 
     menuList: any;
 
-    constructor() {
+    constructor(editorInstance: Editor) {
+
+        this.editorInstance = editorInstance;
         // Create the fileMenuBox
         this.fileMenu = blessed.box({
             parent: this.editorInstance.screen,

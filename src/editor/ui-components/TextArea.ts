@@ -159,6 +159,12 @@ export default class TextArea {
         this.textArea.key('C-s', () => {
             fs.writeFileSync('./test.txt', this.editorInstance.textArea.textArea.getLine(this.verticalScrollOffset))
         });
+
+        this.textArea.key(['M-f'], () => {
+            this.editorInstance.fileMenu.fileMenu.show();
+            // this.editorInstance.menuBar.menuBar.show();
+            this.editorInstance.screen.render();
+        });
     }
 
     // Basic function to get the scrolling cursor offset (used frequently for each key)
