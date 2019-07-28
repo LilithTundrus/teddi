@@ -77,6 +77,12 @@ export default class FileMenu {
         // Append each UI subcomponent to the fileMenu box
         this.fileMenu.append(this.menuList);
 
+        this.fileMenu.on('focus', () => {
+            this.editorInstance.screen.render();
+            // Focus the first element that makes the most sense (the file select)
+            this.menuList.focus();
+        });
+
         this.menuList.key(['escape'], () => {
             // This is temporary, it needs to focus the last focused element before the menu
             this.editorInstance.textArea.textArea.focus();

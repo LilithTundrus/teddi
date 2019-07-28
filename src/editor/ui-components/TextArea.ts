@@ -161,8 +161,13 @@ export default class TextArea {
         });
 
         this.textArea.key(['M-f'], () => {
-            this.editorInstance.fileMenu.fileMenu.show();
-            // this.editorInstance.menuBar.menuBar.show();
+            if (this.editorInstance.fileMenu.fileMenu.hidden) {
+                this.editorInstance.fileMenu.fileMenu.show();
+                this.editorInstance.fileMenu.fileMenu.focus();
+            } else {
+                this.editorInstance.fileMenu.fileMenu.hide();
+                this.textArea.focus();
+            }
             this.editorInstance.screen.render();
         });
     }
