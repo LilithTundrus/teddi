@@ -11,12 +11,10 @@ import Editor from '../Editor';
 
 export default class MenuBar {
 
+    // Declare the object property as a boxElement to get the associated object functions
     menuBar: blessed.Widgets.BoxElement;
 
-    private editorInstance: Editor;
-
-
-    constructor(editorInstance: Editor) {
+    constructor() {
         // Create the menu strip box
         this.menuBar = blessed.box({
             // The top should be the top of the screen
@@ -37,7 +35,7 @@ export default class MenuBar {
                 fg: 'black',
                 bg: 'light-grey',
             },
-            // Formatted for the sake of clarity (red on the alt + key activator for the menu)
+            // Text colors formatted for clarity (red on the alt + key activator for the menu)
             content: `{red-fg}F{/red-fg}ile {red-fg}E{/red-fg}dit {red-fg}V{/red-fg}iew {red-fg}F{/red-fg}ind {red-fg}O{/red-fg}ptions`
         });
     }

@@ -123,7 +123,7 @@ export default class Editor {
         // Initialize all classes needed to construct the base UI
         this.textArea = new TextArea(this);
         this.statusBar = new StatusBar(this);
-        this.menuBar = new MenuBar(this);
+        this.menuBar = new MenuBar();
         this.fileMenu = new FileMenu(this);
 
         // Append each UI element to the blessed screen
