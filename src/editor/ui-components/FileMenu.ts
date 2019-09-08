@@ -85,6 +85,7 @@ export default class FileMenu {
 
         this.menuList.key(['escape'], () => {
             // This is temporary, it needs to focus the last focused element before the menu
+            this.fileMenu.hide();
             this.editorInstance.textArea.textArea.focus();
         });
 
@@ -106,8 +107,13 @@ export default class FileMenu {
 
     }
 
-        // This function is called on the 'Save' menu option
+    // This function is called on the 'Save' menu option
     saveFile() {
+
+    }
+
+    // This function is called on the 'Save As' menu option
+    saveFileAs() {
 
     }
 }
