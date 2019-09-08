@@ -95,4 +95,19 @@ export default class FileMenu {
             if (item.content == 'Exit') return process.exit();
         });
     }
+
+    // This function is called on the 'New' menu option
+    newFile() {
+
+    }
+
+    // This function is called on the 'Open' menu option
+    openFile() {
+
+    }
+
+        // This function is called on the 'Save' menu option
+    saveFile() {
+
+    }
 }
