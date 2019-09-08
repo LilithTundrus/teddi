@@ -3,8 +3,6 @@
 
 // NPM dependencies
 import * as blessed from 'blessed';
-// Local dependencies
-import Editor from '../Editor';
 
 // This file will hold methods for the Menubar actions within the Editor
 
