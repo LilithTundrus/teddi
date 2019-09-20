@@ -12,6 +12,9 @@ export default class MenuBar {
     // Declare the object property as a boxElement to get the associated object functions
     menuBar: blessed.Widgets.BoxElement;
 
+    defaultContent = `{red-fg}F{/red-fg}ile {red-fg}E{/red-fg}dit {red-fg}V{/red-fg}iew {red-fg}F{/red-fg}ind {red-fg}O{/red-fg}ptions`;
+    fileContent = `{blue}{red-fg}F{/red-fg}ile{/blue} {red-fg}E{/red-fg}dit {red-fg}V{/red-fg}iew {red-fg}F{/red-fg}ind {red-fg}O{/red-fg}ptions`;
+
     constructor() {
         // Create the menu strip box
         this.menuBar = blessed.box({
@@ -34,7 +37,31 @@ export default class MenuBar {
                 bg: 'light-grey',
             },
             // Text colors formatted for clarity (red on the alt + key activator for the menu)
-            content: `{red-fg}F{/red-fg}ile {red-fg}E{/red-fg}dit {red-fg}V{/red-fg}iew {red-fg}F{/red-fg}ind {red-fg}O{/red-fg}ptions`
+            content: this.defaultContent
         });
+    }
+
+    fileHighlight() {
+        this.menuBar.setContent(this.fileContent);
+    }
+
+    editHighlight() {
+
+    }
+
+    viewHighlight() {
+
+    }
+
+    findHighlight() {
+
+    }
+
+    optionsHighlight() {
+
+    }
+
+    resetHighlight() {
+        this.menuBar.setContent(this.defaultContent);
     }
 }
